@@ -24,7 +24,7 @@ def dd(path):
         x2.append(v3)
         # x3.append(v4)
         y.append(v1)
-    print(min(y), max(y), min(x1), max(x1))
+    # print(min(y), max(y), min(x1), max(x1))
     return [y, x1, x2, x3]
 
 
@@ -32,18 +32,20 @@ def dd(path):
 def f(x, A, B, C, D):
     return A * x ** 3 + B * x ** 2 + C * x + D
 
+
 def fx(x, A, B, C, D):
     return A * x ** 3 + B * x ** 2 + C * x + D
+
 
 def optimal(x_group, y_group):
     # 得到返回的A，B值
     A, B, C, D = op.curve_fit(f, x_group, y_group)[0]
     # print(A, B, C, D)
     # 数据点与原先的进行画图比较
-    plt.scatter(x_group, y_group, s=80, marker='x', label='真实值')
+    plt.scatter(x_group, y_group, s=80, marker='+', label='散点图')
     x = np.arange(1, 14000, 0.01)
     y = fx(x, A, B, C, D)
-    plt.plot(x, x, color='red', label='拟合曲线')
+    plt.plot(x, x, color='b', label='y = x')
     plt.xscale('log')
     plt.yscale('log')
     plt.legend()  # 显示label
@@ -51,25 +53,42 @@ def optimal(x_group, y_group):
     return [A, B, C, D]
 
 
+def get_ave_opt_p(path):
+    file = open(path, 'r')
+    p = []
+    cov = []
+    data = file.readlines()
+    for d in data:
+        cur = d.split(" ")
+        pp = float(cur[0])
+        v1 = float(cur[1])
+        v2 = float(cur[2])
+        v3 = float(cur[3])
+        v4 = float(cur[4][:-1])
+        p.append(pp)
+        tp = [v1, v2, v3, v4]
+        cov.append(tp)
+
+
 if __name__ == '__main__':
     path = r"E:\DeskTop\res"
-    # x = dd(r"E:\DeskTop\res\base\50ret1.txt")
-    # optimal(x[0], x[1])
-    # draw.diff_ARE(x[0], x[1])
-    p = [10, 30, 50, 80, 100]
-    plt.figure()
-    file = open(path + "cov.txt", 'w')
-    for i in p:
-        print("===================P = " + str(i) + " ====================")
-        cov = [0, 0, 0, 0]
-        for j in range(1, 6):
-            real_ave = dd(path + "\\100" + "ret" + str(j) + ".txt")[2]
-            [real, nf, ave, p] = dd(path + "\\" + str(i) + "ret" + str(j) + ".txt")
-            tp = optimal(ave, real_ave)
-            print(tp)
-            cov = [i+j for i, j in zip(cov, tp)]
-        print("===========================================================")
-        cov = [i/5 for i in cov]
-        print(cov)
-        file.write(str(cov[0])+" "+str(cov[1])+" "+str(cov[2])+" "+str(cov[3])+"\n")
-    file.close()
+    path2 = r"E:\DeskTop\res\base"
+    x = dd(path+"\\100ret3.txt")
+    optimal(x[0], x[1])
+    draw.diff_ARE(x[0], x[1])
+    # p = [10, 30, 50, 80, 100]
+    # plt.figure()
+    # file = open(path + "cov.txt", 'w')
+    # for i in p:
+    #     print("===================P = " + str(i) + "====================")
+    #     cov = [0, 0, 0, 0]
+    #     for j in range(1, 6):
+    #         real_ave = dd(path + "\\100" + "ret" + str(j) + ".txt")[2]
+    #         [real, nf, ave, p] = dd(path + "\\" + str(i) + "ret" + str(j) + ".txt")
+    #         tp = optimal(ave, real_ave)
+    #         cov = [i+j for i, j in zip(cov, tp)]
+    #     cov = [i/5 for i in cov]
+    #     print(cov)
+    #     print("===========================================================")
+    #     file.write(str(cov[0])+" "+str(cov[1])+" "+str(cov[2])+" "+str(cov[3])+"\n")
+    # file.close()

@@ -51,7 +51,7 @@ def diff_ARE(x, y):
         if len(lst) == 0:
             print("NULL")
             continue
-        print(round(sum(lst) / len(lst), 3), end="\t")
+        print("{:.3f}".format(round(sum(lst) / len(lst), 3)), end="\t")
     print()
 
 
