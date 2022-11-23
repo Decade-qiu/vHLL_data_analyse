@@ -70,12 +70,13 @@ def diff_MAE(x, y):
         elif a <= 10000:
             noise[3].append(err)
         else:
+            print(a, y[i], err)
             noise[4].append(err)
     for lst in noise:
         if len(lst) == 0:
             print("无")
             continue
-        print(round(sum(lst) / len(lst), 3), end="\t")
+        print(len(lst), round(sum(lst) / len(lst), 3), end="\t")
     print()
 
 
@@ -124,6 +125,7 @@ def get_ARE(x, y):
 
 if __name__ == '__main__':
     path = r"E:\DeskTop\res"
+    path1 = r"E:\DeskTop\res\element"
     # idx = 1
     # for txt in os.listdir(path):
     #     [x, y, ARE] = read_res(os.path.join(path, txt))
@@ -133,11 +135,12 @@ if __name__ == '__main__':
     #     diff_MAE(x, y)
     #     idx += 1
     p = [10, 30, 50, 80, 100]
-    for i in p[2:3]:
-        lst = dd(path + "//" + str(i) + "ret1" + ".txt")
-        draw_scatter(lst[0], lst[2], 0, r"E:\DeskTop\pic\real_ave" + "\\" + str(i) + ".png")
-        draw_scatter(lst[0], lst[1], 0, r"E:\DeskTop\pic\real_esi" + "\\" + str(i) + ".png")
-        draw_scatter(lst[1], lst[2], 0, r"E:\DeskTop\pic\esi_ave" + "\\" + str(i) + ".png")
+    for i in p[:]:
+        lst = dd(path1 + "//" + str(i) + "ret1" + ".txt")
+        # draw_scatter(lst[0], lst[2], 0, r"E:\DeskTop\pic\real_ave" + "\\" + str(i) + ".png")
+        # draw_scatter(lst[0], lst[1], 0, r"E:\DeskTop\pic\real_esi" + "\\" + str(i) + ".png")
+        draw_scatter(lst[0], lst[1], 0, r"E:\DeskTop\pic\elem_real_esi" + "\\" + str(i) + ".png")
+        # draw_scatter(lst[1], lst[2], 0, r"E:\DeskTop\pic\esi_ave" + "\\" + str(i) + ".png")
         get_ARE(lst[0], lst[1])
     # for i in {1, 2, 3, 4, 5}:
     #     lst = dd(path + "//100" + "ret" + str(i) + ".txt")

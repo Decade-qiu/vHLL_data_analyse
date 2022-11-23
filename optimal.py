@@ -37,7 +37,7 @@ def fx(x, A, B, C, D):
     return A * x ** 3 + B * x ** 2 + C * x + D
 
 
-def optimal(x_group, y_group):
+def optimal(x_group, y_group, title):
     # 得到返回的A，B值
     A, B, C, D = op.curve_fit(f, x_group, y_group)[0]
     # print(A, B, C, D)
@@ -45,11 +45,14 @@ def optimal(x_group, y_group):
     plt.scatter(x_group, y_group, s=80, marker='+', label='散点图')
     x = np.arange(1, 14000, 0.01)
     y = fx(x, A, B, C, D)
-    plt.plot(x, x, color='b', label='y = x')
+    plt.plot(x, x, label='y = x')
     plt.xscale('log')
     plt.yscale('log')
     plt.legend()  # 显示label
+    plt.title(title)
     plt.show()
+    draw.diff_ARE(x_group, y_group)
+    draw.diff_MAE(x_group, y_group)
     return [A, B, C, D]
 
 
@@ -72,10 +75,14 @@ def get_ave_opt_p(path):
 
 if __name__ == '__main__':
     path = r"E:\DeskTop\res"
+    path1 = r"E:\DeskTop\res\element"
     path2 = r"E:\DeskTop\res\base"
-    x = dd(path+"\\100ret3.txt")
-    optimal(x[0], x[1])
-    draw.diff_ARE(x[0], x[1])
+    P = 10
+    x = dd(path + "\\"+str(P)+"ret1.txt")
+    y = dd(path1 + "\\"+str(P)+"ret1.txt")
+    print(len(x[0]), len(y[0]))
+    optimal(x[0], x[1], "包级别采样")
+    optimal(y[0], y[1], "元素级别采样")
     # p = [10, 30, 50, 80, 100]
     # plt.figure()
     # file = open(path + "cov.txt", 'w')
