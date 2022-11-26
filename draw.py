@@ -47,6 +47,7 @@ def diff_ARE(x, y):
             are[3].append(abs(a - b) / a)
         else:
             are[4].append(abs(a - b) / a)
+    print("不同基数区间ARE")
     for lst in are:
         if len(lst) == 0:
             print("NULL")
@@ -76,7 +77,7 @@ def diff_MAE(x, y):
         if len(lst) == 0:
             print("无")
             continue
-        print(len(lst), round(sum(lst) / len(lst), 3), end="\t")
+        print(round(sum(lst) / len(lst), 3), end="\t")
     print()
 
 
@@ -97,7 +98,7 @@ def dd(path):
         x2.append(v3)
         x3.append(v4)
         y.append(v1)
-    print(min(y), max(y), min(x1), max(x1))
+    # print(min(y), max(y), min(x1), max(x1))
     return [y, x1, x2, x3]
 
 
@@ -112,6 +113,7 @@ def draw_scatter(x, y, flag, savepath):
     plt.yscale('log')
     plt.xlabel("实际基数")
     plt.ylabel("估计基数")
+    diff_ARE(x, y)
     if flag == 1:
         plt.show()
     else:
@@ -126,6 +128,13 @@ def get_ARE(x, y):
 if __name__ == '__main__':
     path = r"E:\DeskTop\res"
     path1 = r"E:\DeskTop\res\element"
+    path2 = r"E:\DeskTop\res\base"
+    P = 30
+    x = dd(path2 + "\\" + str(40) + "ret3.txt")
+    # y = dd(path1 + "\\"+str(P)+"ret1.txt")
+    # print(len(x[0]), len(y[0]))
+    draw_scatter(x[0], x[1], 1, "")
+    # optimal(y[0], y[1], "元素级别采样")
     # idx = 1
     # for txt in os.listdir(path):
     #     [x, y, ARE] = read_res(os.path.join(path, txt))
@@ -134,14 +143,11 @@ if __name__ == '__main__':
     #     diff_ARE(x, y)
     #     diff_MAE(x, y)
     #     idx += 1
-    p = [10, 30, 50, 80, 100]
-    for i in p[:]:
-        lst = dd(path1 + "//" + str(i) + "ret1" + ".txt")
-        # draw_scatter(lst[0], lst[2], 0, r"E:\DeskTop\pic\real_ave" + "\\" + str(i) + ".png")
-        # draw_scatter(lst[0], lst[1], 0, r"E:\DeskTop\pic\real_esi" + "\\" + str(i) + ".png")
-        draw_scatter(lst[0], lst[1], 0, r"E:\DeskTop\pic\elem_real_esi" + "\\" + str(i) + ".png")
-        # draw_scatter(lst[1], lst[2], 0, r"E:\DeskTop\pic\esi_ave" + "\\" + str(i) + ".png")
-        get_ARE(lst[0], lst[1])
-    # for i in {1, 2, 3, 4, 5}:
-    #     lst = dd(path + "//100" + "ret" + str(i) + ".txt")
-    #     draw_scatter(lst[0], lst[1], 0, r"E:\DeskTop\pic\1024_32" + "\\" + str(i) + ".png")
+    # p = [10, 30, 50, 80, 100]
+    # for i in p[:]:
+    #     lst = dd(path1 + "//" + str(i) + "ret1" + ".txt")
+    #     # draw_scatter(lst[0], lst[2], 0, r"E:\DeskTop\pic\real_ave" + "\\" + str(i) + ".png")
+    #     # draw_scatter(lst[0], lst[1], 0, r"E:\DeskTop\pic\real_esi" + "\\" + str(i) + ".png")
+    #     # draw_scatter(lst[0], lst[1], 0, r"E:\DeskTop\pic\elem_real_esi" + "\\" + str(i) + ".png")
+    #     # draw_scatter(lst[1], lst[2], 0, r"E:\DeskTop\pic\esi_ave" + "\\" + str(i) + ".png")
+    #     get_ARE(lst[0], lst[1])
