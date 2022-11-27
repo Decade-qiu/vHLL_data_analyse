@@ -122,32 +122,24 @@ def draw_scatter(x, y, flag, savepath):
 
 def get_ARE(x, y):
     tp = [abs(yy - xx) / xx for xx, yy in zip(x, y)]
-    print(sum(tp) / len(tp))
+    print("%.2f" % (sum(tp) / len(tp)), end=', ')
 
 
 if __name__ == '__main__':
     path = r"E:\DeskTop\res"
     path1 = r"E:\DeskTop\res\element"
     path2 = r"E:\DeskTop\res\base"
-    P = 30
-    x = dd(path2 + "\\" + str(40) + "ret3.txt")
-    # y = dd(path1 + "\\"+str(P)+"ret1.txt")
-    # print(len(x[0]), len(y[0]))
-    draw_scatter(x[0], x[1], 1, "")
-    # optimal(y[0], y[1], "元素级别采样")
-    # idx = 1
-    # for txt in os.listdir(path):
-    #     [x, y, ARE] = read_res(os.path.join(path, txt))
-    #     savepath = r"E:\DeskTop\pic\1024_32" + "\\" + str(idx) + ".png"
-    #     draw_scatter(x, y, 0, savepath)
-    #     diff_ARE(x, y)
-    #     diff_MAE(x, y)
-    #     idx += 1
-    # p = [10, 30, 50, 80, 100]
-    # for i in p[:]:
-    #     lst = dd(path1 + "//" + str(i) + "ret1" + ".txt")
-    #     # draw_scatter(lst[0], lst[2], 0, r"E:\DeskTop\pic\real_ave" + "\\" + str(i) + ".png")
-    #     # draw_scatter(lst[0], lst[1], 0, r"E:\DeskTop\pic\real_esi" + "\\" + str(i) + ".png")
-    #     # draw_scatter(lst[0], lst[1], 0, r"E:\DeskTop\pic\elem_real_esi" + "\\" + str(i) + ".png")
-    #     # draw_scatter(lst[1], lst[2], 0, r"E:\DeskTop\pic\esi_ave" + "\\" + str(i) + ".png")
-    #     get_ARE(lst[0], lst[1])
+    # P = 60
+    # x = dd(path1 + "\\" + str(P) + "ret1.txt")
+    # # y = dd(path1 + "\\"+str(P)+"ret1.txt")
+    # # print(len(x[0]), len(y[0]))
+    # draw_scatter(x[0], x[1], 1, "")
+    # get_ARE(x[0], x[1])
+    # # optimal(y[0], y[1], "元素级别采样")
+    p = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+    for i in p[:]:
+        x = dd(path1 + "\\" + str(i) + "ret5" + ".txt")
+        # draw_scatter(x[0], x[1], 0, r"E:\DeskTop\pic\修正_elem_real_esi" + "\\" + str(i) + ".png")
+        # draw_scatter(x[0], x[1], 0, r"E:\DeskTop\pic\修正_pkt_real_esi" + "\\" + str(i) + ".png")
+        get_ARE(x[0], x[1])
+        # diff_ARE(x[0], x[1])

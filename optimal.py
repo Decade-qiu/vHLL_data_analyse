@@ -85,10 +85,9 @@ if __name__ == '__main__':
     # # print(len(x[0]), len(y[0]))
     # optimal(x[0], x[1], "包级别采样")
     # # optimal(y[0], y[1], "元素级别采样")
-    p = [10, 30, 50, 80, 100]
-    plt.figure()
+    p = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
     file = open(path + "cov.txt", 'w')
-    for i in range(10, 110, 10):
+    for i in p:
         print("===================P = " + str(i) + "=================================")
         cov = [0, 0, 0, 0, 0, 0]
         for j in range(1, 6):
@@ -99,6 +98,10 @@ if __name__ == '__main__':
         cov = [i / 5 for i in cov]
         print(cov)
         cov = [get(cov[i], 5-i) for i in range(6)]
+        if i == 10:
+            file.write("if (P == 10) ave = ")
+        else:
+            file.write("else if (P == " + str(i) + ") ave = ")
         file.write(str(cov[0]) + " " + str(cov[1]) + " " + str(cov[2])
-                   + " " + str(cov[3]) + " " + str(cov[4]) + " " + str(cov[5]) + "\n")
+                   + " " + str(cov[3]) + " " + str(cov[4]) + " " + str(cov[5]) + ";" + "\n")
     file.close()
