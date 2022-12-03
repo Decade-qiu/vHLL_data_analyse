@@ -34,9 +34,11 @@ def read_res(path):
 # 计算不同基数区间ARE值
 def diff_ARE(x, y):
     are = [[], [], [], [], []]
+    cnt = 0
     for i in range(len(x)):
         a = x[i]
         b = y[i]
+        cnt += abs(a-b)/a
         if a <= 10:
             are[0].append(abs(a - b) / a)
         elif a <= 100:
@@ -53,7 +55,7 @@ def diff_ARE(x, y):
             print("NULL")
             continue
         print("{:.3f}".format(round(sum(lst) / len(lst), 3)), end="\t")
-    print()
+    print("总ARE:", cnt/len(x))
 
 
 # 计算不同基数区间平均噪声值（噪声：估计基数-实际基数）
@@ -92,28 +94,29 @@ def dd(path):
         cur = d.split(" ")
         v1 = float(cur[0])
         v2 = float(cur[1])
-        v3 = float(cur[2])
-        v4 = float(cur[3][:-1])
+        # v3 = float(cur[2])
+        # v4 = float(cur[3][:-1])
         x1.append(v2)
-        x2.append(v3)
-        x3.append(v4)
+        # x2.append(v3)
+        # x3.append(v4)
         y.append(v1)
     # print(min(y), max(y), min(x1), max(x1))
-    return [y, x1, x2, x3]
+    return [y, x1]
 
 
 # 画散点图 x y 是横纵坐标的值 savepath是图片保存地址
 def draw_scatter(x, y, flag, savepath):
     fig = plt.figure()
-    MM = 15000
-    a = np.arange(1, MM, 0.001)
+    MM = 5
+    a = range(0, MM)
+    # plt.scatter(x, y, s=50, marker='x')
+    plt.plot(np.  log10(x), np.log10(y), "x")
     plt.plot(a, a)
-    plt.scatter(x, y, s=50, marker='x')
-    plt.xscale('log')
-    plt.yscale('log')
+    # plt.xscale('log')
+    # plt.yscale('log')
     plt.xlabel("实际基数")
     plt.ylabel("估计基数")
-    diff_ARE(x, y)
+    # diff_ARE(x, y)
     if flag == 1:
         plt.show()
     else:
@@ -121,7 +124,7 @@ def draw_scatter(x, y, flag, savepath):
 
 
 def get_ARE(x, y):
-    tp = [abs(yy - xx) / xx for xx, yy in zip(x, y)]
+    tp = [abs(yyy - xxx) / xxx for xxx, yyy in zip(x, y)]
     print("%.2f" % (sum(tp) / len(tp)), end=', ')
 
 
@@ -129,6 +132,7 @@ if __name__ == '__main__':
     path = r"E:\DeskTop\res"
     path1 = r"E:\DeskTop\res\element"
     path2 = r"E:\DeskTop\res\base"
+    path3 = r"E:\DeskTop\res\net"
     # P = 60
     # x = dd(path1 + "\\" + str(P) + "ret1.txt")
     # # y = dd(path1 + "\\"+str(P)+"ret1.txt")
@@ -137,9 +141,10 @@ if __name__ == '__main__':
     # get_ARE(x[0], x[1])
     # # optimal(y[0], y[1], "元素级别采样")
     p = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
-    for i in p[:]:
-        x = dd(path1 + "\\" + str(i) + "ret5" + ".txt")
-        # draw_scatter(x[0], x[1], 0, r"E:\DeskTop\pic\修正_elem_real_esi" + "\\" + str(i) + ".png")
-        # draw_scatter(x[0], x[1], 0, r"E:\DeskTop\pic\修正_pkt_real_esi" + "\\" + str(i) + ".png")
-        get_ARE(x[0], x[1])
-        # diff_ARE(x[0], x[1])
+    for i in p[0:10]:
+        xx = dd(path3 + "\\" + str(i) + "ret3" + ".txt")
+        # draw_scatter(xx[0], xx[1], 0, r"E:\DeskTop\pic\修正_elem_real_esi" + "\\" + str(i) + ".png")
+        # draw_scatter(xx[0], xx[1], 0, r"E:\DeskTop\pic\修正_pkt_real_esi" + "\\" + str(i) + ".png")
+        draw_scatter(xx[0], xx[1], 0, r"E:\DeskTop\pic\神经网络修正_pkt_real_esi" + "\\" + str(i) + ".png")
+        get_ARE(xx[0], xx[1])
+        # diff_ARE(xx[0], xx[1])

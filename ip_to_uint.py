@@ -45,10 +45,10 @@ def exc(inf, ouf):
 
 
 if __name__ == '__main__':
-    inf = r"E:\DeskTop\str_pkt"
+    inf = r"E:\DeskTop\test"
     ouf = r"E:\DeskTop\train"
-    # for txt in os.listdir(inf):
-    #     exc(os.path.join(inf, txt), os.path.join(ouf, txt))
-    f = open(r"E:\DeskTop\train\00.txt", 'r')
-    da = f.readlines()[0].split(" ")
-    print(da[0], int_to_ip(int(da[0])))
+    for txt in os.listdir(inf):
+        exc(os.path.join(inf, txt), os.path.join(ouf, txt))
+    # f = open(r"E:\DeskTop\train\00.txt", 'r')
+    # da = f.readlines()[0].split(" ")
+    # print(da[0], int_to_ip(int(da[0])))

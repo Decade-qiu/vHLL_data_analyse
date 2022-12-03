@@ -71,17 +71,17 @@ class vHLL(object):
         # return getAlpha(N) * N * (N - zero) / (sum_t + beta)
         return self.getAlpha(self.N) * self.N * self.N / sum_t
 
-    def query(self, src, n):
-        f32 = self.H(src)
-        sum_t = 0.0
-        zero = 0
-        for i in range(self.M):
-            index = self.H(f32 ^ i) % self.N
-            if self.array[index] == 0:
-                zero += 1
-            sum_t += 1.0 / pow(2, self.array[index])
-        # beta = getBeta(zero)
-        # ns = getAlpha(M) * M * (M - zero) / (sum_t + beta)
+        #     def query(self, src, n):
+        #         f32 = self.H(src)
+        #         sum_t = 0.0
+        #         zero = 0
+        #         for i in range(self.M):
+        #             index = self.H(f32 ^ i) % self.N
+        #             if self.array[index] == 0:
+        #                 zero += 1
+        #             sum_t += 1.0 / pow(2, self.array[index])
+        #         # beta = getBeta(zero)
+        #         # ns = getAlpha(M) * M * (M - zero) / (sum_t + beta)
         ns = self.getAlpha(self.M) * self.M * self.M / sum_t
         if ns < 2.5 * self.M and zero != 0:
             ns = -self.M * math.log2(zero / self.M)

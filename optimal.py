@@ -45,9 +45,9 @@ def residuals(A, B, C, D, E, y, x):
 def optimal(x_group, y_group, title, show):
     # fig = plt.figure()
     # A, B, C, D, E = op.curve_fit(f, x_group, y_group)[0]
-    z1 = np.polyfit(x_group, y_group, 5)
+    z1 = np.polyfit(x_group, y_group, 7)
     p1 = np.poly1d(z1)
-    # print(A, B, C, D)
+    # print(z1)
     # 数据点与原先的进行画图比较
     plt.scatter(x_group, y_group, s=80, marker='+', label='散点图')
     x = np.arange(1, 14000, 0.01)
@@ -71,7 +71,7 @@ def get(opt, x):
         res = '+'
     res += str(opt)
     for i in range(x):
-        res += "*ave"
+        res += "*nf"
     return res
 
 
@@ -87,21 +87,22 @@ if __name__ == '__main__':
     # # optimal(y[0], y[1], "元素级别采样")
     p = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
     file = open(path + "cov.txt", 'w')
-    for i in p:
+    for i in p[0:10]:
         print("===================P = " + str(i) + "=================================")
-        cov = [0, 0, 0, 0, 0, 0]
+        cov = [0, 0, 0, 0, 0, 0, 0, 0]
         for j in range(1, 6):
-            real_ave = dd(path + "\\100" + "ret" + str(j) + ".txt")[2]
-            ave = dd(path + "\\" + str(i) + "ret" + str(j) + ".txt")[2]
-            tp = optimal(ave, real_ave, "", 0)
+            # real_ave = dd(path + "\\100" + "ret" + str(j) + ".txt")[2]
+            res = dd(path + "\\" + str(i) + "ret" + str(j) + ".txt")
+            tp = optimal(res[1], res[0], "", 0)
             cov = [i + j for i, j in zip(cov, tp)]
         cov = [i / 5 for i in cov]
         print(cov)
-        cov = [get(cov[i], 5-i) for i in range(6)]
+        cov = [get(cov[i], 7-i) for i in range(8)]
         if i == 10:
-            file.write("if (P == 10) ave = ")
+            file.write("if (P == 10) nf = ")
         else:
-            file.write("else if (P == " + str(i) + ") ave = ")
+            file.write("else if (P == " + str(i) + ") nf = ")
         file.write(str(cov[0]) + " " + str(cov[1]) + " " + str(cov[2])
-                   + " " + str(cov[3]) + " " + str(cov[4]) + " " + str(cov[5]) + ";" + "\n")
+                   + " " + str(cov[3]) + " " + str(cov[4]) + " " + str(cov[5])
+                   + " " + str(cov[6]) + " " + str(cov[7]) + ";" + "\n")
     file.close()
