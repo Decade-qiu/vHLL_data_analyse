@@ -4,7 +4,6 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import tensorflow as tf
 from keras import backend as K
-from keras import metrics
 from keras.models import Sequential
 from keras.layers import Dense, Activation
 from keras.optimizers import Adam
@@ -41,18 +40,18 @@ def read(path):
     for d in data:
         cur = d.split(" ")
         yyy.append([int(cur[0])])
-        tp = [0 for i in range(29)]
-        for i in range(3, 34):
-            tp[int(cur[i])] += 1
-        tp.append(int(cur[1]))
-        xxx.append(tp)
-        # xxx.append([int(cur[1])])
+        # tp = [0 for ii in range(28)]
+        # for ii in range(3, 34):
+        #     tp[int(cur[i])] += 1
+        # # tp[int(math.log2(int(cur[1])))] += 1
+        # xxx.append(tp)
+        xxx.append([int(cur[1])])
     return [xxx, yyy]
 
-def getModel(dim):
+def getModel():
     model = Sequential()
     num_neurons = 40
-    model.add(Dense(num_neurons, activation='ReLU', input_dim=dim))
+    model.add(Dense(num_neurons, activation='ReLU', input_dim=1))
     model.add(Dense(num_neurons, activation='ReLU'))
     model.add(Dense(num_neurons, activation='ReLU'))
     model.add(Dense(num_neurons, activation='ReLU'))
@@ -62,7 +61,7 @@ def getModel(dim):
     model.summary()
 
     adam = Adam(lr=0.00001)
-    model.compile(loss='mean_squared_error', optimizer=adam, metrics=['acc'])
+    model.compile(loss='mean_squared_error', optimizer=adam, metrics=['accuracy'])
     return model
 
 def train(x_train, y_train, model):
@@ -87,16 +86,16 @@ if __name__ == '__main__':
     # print(rr[0])
     x = []
     y = []
-    for i in p[0:1]:
-        [xx, yy] = read(path + "\\" + str(i) + "ret1" + ".txt")
-        mod = getModel(len(xx[0]))
-        for j in range(1, 6):
+    for i in p[0:10]:
+        mod = getModel()
+        for j in range(1, 3):
             [xx, yy] = read(path + "\\" + str(i) + "ret" + str(j) + ".txt")
             # [test_xx, test_yy] = read(path4 + "\\" + str(i) + "ret" + str(1) + ".txt")
             # for k in range(len(xx)):
             #     x.append(xx[k])
             #     y.append(yy[k])
             train(xx, yy, mod)
+        [xx, yy] = read(path + "\\" + str(i) + "ret1" + ".txt")
         res = mod.predict(xx)
         real = [i[0] for i in yy]
         pre = [i[0] for i in res]
