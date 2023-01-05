@@ -42,16 +42,19 @@ def read(path):
         cur = d.split(" ")
         yyy.append([int(cur[0])])
         tp = [0 for i in range(29)]
+        # tp = []
         for i in range(3, 34):
             tp[int(cur[i])] += 1
-        tp.append(int(cur[1]))
+        tp[(int(math.log2(int(cur[1]))+0.5))] += 2
+        tp = [[xy] for xy in tp]
         xxx.append(tp)
         # xxx.append([int(cur[1])])
     return [xxx, yyy]
 
+
 def getModel(dim):
     model = Sequential()
-    num_neurons = 40
+    num_neurons = 66
     model.add(Dense(num_neurons, activation='ReLU', input_dim=dim))
     model.add(Dense(num_neurons, activation='ReLU'))
     model.add(Dense(num_neurons, activation='ReLU'))
@@ -61,13 +64,14 @@ def getModel(dim):
     model.add(Dense(1))
     model.summary()
 
-    adam = Adam(lr=0.00001)
+    adam = Adam(lr=0.001)
     model.compile(loss='mean_squared_error', optimizer=adam, metrics=['acc'])
     return model
 
+
 def train(x_train, y_train, model):
     # print(model.predict(x_train))
-    history = model.fit(x_train, y_train, batch_size=64, epochs=10)
+    history = model.fit(x_train, y_train, batch_size=64, epochs=12)
     # for step in range(4000):
     #     train_cost = model.train_on_batch(x_train, y_train)
     #     if step % 500 == 0:
@@ -82,13 +86,15 @@ if __name__ == '__main__':
     path2 = r"E:\DeskTop\res\base"
     path3 = r"E:\DeskTop\res\net"
     path4 = r"E:\DeskTop\res\test"
+    path5 = r"E:\DeskTop\res\KB256"
+    path6 = r"E:\DeskTop\res\net256"
     p = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
     # rr = train([[0 for i in range(32)] for j in range(10)], [i for i in range(0, 10)])
     # print(rr[0])
     x = []
     y = []
-    for i in p[0:1]:
-        [xx, yy] = read(path + "\\" + str(i) + "ret1" + ".txt")
+    for i in p[0:10]:
+        [xx, yy] = read(path + "\\" + str(i) + "ret2" + ".txt")
         mod = getModel(len(xx[0]))
         for j in range(1, 6):
             [xx, yy] = read(path + "\\" + str(i) + "ret" + str(j) + ".txt")
@@ -97,6 +103,7 @@ if __name__ == '__main__':
             #     x.append(xx[k])
             #     y.append(yy[k])
             train(xx, yy, mod)
+        mod.save('save_model/' + str(i) + '.h5')
         res = mod.predict(xx)
         real = [i[0] for i in yy]
         pre = [i[0] for i in res]

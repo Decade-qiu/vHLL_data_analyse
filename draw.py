@@ -134,6 +134,8 @@ if __name__ == '__main__':
     path2 = r"E:\DeskTop\res\base"
     path3 = r"E:\DeskTop\res\net"
     path4 = r"E:\DeskTop\res\test"
+    path5 = r"E:\DeskTop\res\KB256"
+    path6 = r"E:\DeskTop\res\net256"
     # P = 60
     # x = dd(path1 + "\\" + str(P) + "ret1.txt")
     # # y = dd(path1 + "\\"+str(P)+"ret1.txt")
@@ -142,10 +144,11 @@ if __name__ == '__main__':
     # get_ARE(x[0], x[1])
     # # optimal(y[0], y[1], "元素级别采样")
     p = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
-    for i in p[0:1]:
-        xx = dd(path + "\\" + str(10) + "ret1" + ".txt")
+    for i in p[0:10]:
+        xx = dd(path1 + "\\" + str(i) + "ret1" + ".txt")
         # draw_scatter(xx[0], xx[1], 0, r"E:\DeskTop\pic\修正_elem_real_esi" + "\\" + str(i) + ".png")
         # draw_scatter(xx[0], xx[1], 0, r"E:\DeskTop\pic\real_esi" + "\\" + str(i) + ".png")
+        # draw_scatter(xx[0], xx[1], 0, r"E:\DeskTop\pic\神经网络修正_pkt_256" + "\\" + str(i) + ".png")
         draw_scatter(xx[0], xx[1], 1, r"E:\DeskTop\pic\神经网络修正_pkt_real_esi" + "\\" + str(i) + ".png")
         # draw_scatter(xx[0], xx[1], 0, r"E:\DeskTop\pic\测试集_pkt_real_esi" + "\\" + str(i) + ".png")
         get_ARE(xx[0], xx[1])

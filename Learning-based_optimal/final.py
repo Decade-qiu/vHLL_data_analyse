@@ -4,6 +4,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import tensorflow as tf
 from keras import backend as K
+from keras import metrics
 from keras.models import Sequential
 from keras.layers import Dense, Activation
 from keras.optimizers import Adam
@@ -40,19 +41,21 @@ def read(path):
     for d in data:
         cur = d.split(" ")
         yyy.append([int(cur[0])])
-        # tp = [0 for ii in range(28)]
-        # for ii in range(3, 34):
-        #     tp[int(cur[i])] += 1
-        # # tp[int(math.log2(int(cur[1])))] += 1
-        # xxx.append(tp)
-        xxx.append([int(cur[1])])
+        tp = [0 for i in range(29)]
+        # tp = []
+        for i in range(3, 34):
+            tp[int(cur[i])] += 1
+        tp[(int(math.log2(int(cur[1]))+0.5))] += 2
+        tp = [[xy] for xy in tp]
+        xxx.append(tp)
+        # xxx.append([int(cur[1])])
     return [xxx, yyy]
 
-def getModel():
+
+def getModel(dim):
     model = Sequential()
-    num_neurons = 40
-    model.add(Dense(num_neurons, activation='ReLU', input_dim=1))
-    model.add(Dense(num_neurons, activation='ReLU'))
+    num_neurons = 68
+    model.add(Dense(num_neurons, activation='ReLU', input_dim=dim))
     model.add(Dense(num_neurons, activation='ReLU'))
     model.add(Dense(num_neurons, activation='ReLU'))
     model.add(Dense(num_neurons, activation='ReLU'))
@@ -60,9 +63,10 @@ def getModel():
     model.add(Dense(1))
     model.summary()
 
-    adam = Adam(lr=0.00001)
-    model.compile(loss='mean_squared_error', optimizer=adam, metrics=['accuracy'])
+    adam = Adam(lr=0.001)
+    model.compile(loss='mean_squared_error', optimizer=adam, metrics=['acc'])
     return model
+
 
 def train(x_train, y_train, model):
     # print(model.predict(x_train))
@@ -81,21 +85,24 @@ if __name__ == '__main__':
     path2 = r"E:\DeskTop\res\base"
     path3 = r"E:\DeskTop\res\net"
     path4 = r"E:\DeskTop\res\test"
+    path5 = r"E:\DeskTop\res\KB256"
+    path6 = r"E:\DeskTop\res\net256"
     p = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
     # rr = train([[0 for i in range(32)] for j in range(10)], [i for i in range(0, 10)])
     # print(rr[0])
     x = []
     y = []
-    for i in p[0:10]:
-        mod = getModel()
-        for j in range(1, 3):
+    for i in p[0:2]:
+        [xx, yy] = read(path4 + "\\" + str(i) + "ret5" + ".txt")
+        mod = getModel(len(xx[0]))
+        for j in range(1, 6):
             [xx, yy] = read(path + "\\" + str(i) + "ret" + str(j) + ".txt")
             # [test_xx, test_yy] = read(path4 + "\\" + str(i) + "ret" + str(1) + ".txt")
             # for k in range(len(xx)):
             #     x.append(xx[k])
             #     y.append(yy[k])
             train(xx, yy, mod)
-        [xx, yy] = read(path + "\\" + str(i) + "ret1" + ".txt")
+        mod.save('save_model/' + str(i) + '.h5')
         res = mod.predict(xx)
         real = [i[0] for i in yy]
         pre = [i[0] for i in res]
