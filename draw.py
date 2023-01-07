@@ -109,13 +109,15 @@ def draw_scatter(x, y, flag, savepath):
     fig = plt.figure()
     MM = 5
     a = range(0, MM)
-    # plt.scatter(x, y, s=50, marker='x')
-    plt.plot(np.  log10(x), np.log10(y), "x")
-    plt.plot(a, a)
+    # plt.scatter(x, y, s=50, c='black', marker='+')、
+    plt.scatter(np.log10(x), np.log10(y), s=50, c='black', marker='+')
+    plt.plot(a, a, c='black')
     # plt.xscale('log')
     # plt.yscale('log')
+    plt.xlim(0, MM-1)
+    plt.ylim(0, MM-1)
     plt.xlabel("实际基数")
-    plt.ylabel("估计基数")
+    plt.ylabel("估\n计\n基\n数\n", rotation='horizontal')
     # diff_ARE(x, y)
     if flag == 1:
         plt.show()
@@ -144,8 +146,8 @@ if __name__ == '__main__':
     # get_ARE(x[0], x[1])
     # # optimal(y[0], y[1], "元素级别采样")
     p = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
-    for i in p[0:10]:
-        xx = dd(path1 + "\\" + str(i) + "ret1" + ".txt")
+    for i in p[0:8]:
+        xx = dd(path3 + "\\" + str(i) + "ret1" + ".txt")
         # draw_scatter(xx[0], xx[1], 0, r"E:\DeskTop\pic\修正_elem_real_esi" + "\\" + str(i) + ".png")
         # draw_scatter(xx[0], xx[1], 0, r"E:\DeskTop\pic\real_esi" + "\\" + str(i) + ".png")
         # draw_scatter(xx[0], xx[1], 0, r"E:\DeskTop\pic\神经网络修正_pkt_256" + "\\" + str(i) + ".png")

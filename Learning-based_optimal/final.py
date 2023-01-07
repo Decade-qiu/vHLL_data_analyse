@@ -45,7 +45,7 @@ def read(path):
         # tp = []
         for i in range(3, 34):
             tp[int(cur[i])] += 1
-        tp[(int(math.log2(int(cur[1]))+0.5))] += 2
+        # tp[(int(math.log2(int(cur[1]))+0.5))] += 1
         tp = [[xy] for xy in tp]
         xxx.append(tp)
         # xxx.append([int(cur[1])])
@@ -54,12 +54,13 @@ def read(path):
 
 def getModel(dim):
     model = Sequential()
-    num_neurons = 68
+    num_neurons = 64
     model.add(Dense(num_neurons, activation='ReLU', input_dim=dim))
     model.add(Dense(num_neurons, activation='ReLU'))
     model.add(Dense(num_neurons, activation='ReLU'))
-    model.add(Dense(num_neurons, activation='ReLU'))
-    model.add(Dense(num_neurons, activation='ReLU'))
+    # model.add(Dense(num_neurons, activation='ReLU'))
+    # model.add(Dense(num_neurons, activation='ReLU'))
+    # model.add(Dense(num_neurons, activation='ReLU'))
     model.add(Dense(1))
     model.summary()
 
@@ -70,7 +71,7 @@ def getModel(dim):
 
 def train(x_train, y_train, model):
     # print(model.predict(x_train))
-    history = model.fit(x_train, y_train, batch_size=64, epochs=10)
+    history = model.fit(x_train, y_train, batch_size=128, epochs=100)
     # for step in range(4000):
     #     train_cost = model.train_on_batch(x_train, y_train)
     #     if step % 500 == 0:
@@ -92,8 +93,8 @@ if __name__ == '__main__':
     # print(rr[0])
     x = []
     y = []
-    for i in p[0:2]:
-        [xx, yy] = read(path4 + "\\" + str(i) + "ret5" + ".txt")
+    for i in p[0:10]:
+        [xx, yy] = read(path4 + "\\" + str(i) + "ret1" + ".txt")
         mod = getModel(len(xx[0]))
         for j in range(1, 6):
             [xx, yy] = read(path + "\\" + str(i) + "ret" + str(j) + ".txt")
